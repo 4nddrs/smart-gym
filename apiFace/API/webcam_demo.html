@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Reconocimiento Facial - Webcam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #videoStream {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2em;
+            background: #f0f0f0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-start {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-stop {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-stop:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-stop:disabled,
+        .btn-start:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .status.inactive {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status.active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .recognition-data {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .recognition-data h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .face-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .face-card.recognized {
+            border-left-color: #4CAF50;
+        }
+
+        .face-card.unknown {
+            border-left-color: #ff9800;
+        }
+
+        .face-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .no-faces {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .similarity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .similarity-high {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .similarity-medium {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .similarity-low {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎥 Reconocimiento Facial en Tiempo Real</h1>
+        <p class="subtitle">Demo con Webcam y CompreFace API</p>
+
+        <div class="status inactive" id="status">
+            ⚫ Cámara Inactiva
+        </div>
+
+        <div class="video-container">
+            <img id="videoStream" style="display: none;" alt="Stream de video">
+            <div class="video-placeholder" id="placeholder">
+                📷 Presiona "Iniciar Cámara" para comenzar
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-start" id="startBtn" onclick="startWebcam()">
+                ▶ Iniciar Cámara
+            </button>
+            <button class="btn-stop" id="stopBtn" onclick="stopWebcam()" disabled>
+                ⏹ Detener Cámara
+            </button>
+        </div>
+
+        <div class="recognition-data">
+            <h3>📊 Datos de Reconocimiento</h3>
+            <div id="recognitionResults">
+                <div class="no-faces">No hay datos disponibles</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://localhost:8002'; // API con HTTPS
+        let recognitionInterval = null;
+
+        async function startWebcam() {
+            try {
+                const startBtn = document.getElementById('startBtn');
+                const stopBtn = document.getElementById('stopBtn');
+                
+                startBtn.disabled = true;
+                startBtn.textContent = '⏳ Iniciando...';
+
+                // Iniciar webcam
+                const response = await fetch(`${API_URL}/webcam/start`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success' || data.status === 'already_running') {
+                    // Mostrar stream
+                    const videoStream = document.getElementById('videoStream');
+                    const placeholder = document.getElementById('placeholder');
+                    
+                    videoStream.src = `${API_URL}/webcam/stream`;
+                    videoStream.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    
+                    // Actualizar estado
+                    updateStatus(true);
+                    
+                    // Iniciar polling de datos de reconocimiento
+                    startRecognitionPolling();
+                    
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+                    startBtn.textContent = '▶ Iniciar Cámara';
+                } else {
+                    alert('Error al iniciar la cámara: ' + data.message);
+                    startBtn.disabled = false;
+                    startBtn.textContent = '▶ Iniciar Cámara';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al conectar con el servidor');
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('startBtn').textContent = '▶ Iniciar Cámara';
+            }
+        }
+
+        async function stopWebcam() {
+            try {
+                const startBtn = document.getElementById('startBtn');
+                const stopBtn = document.getElementById('stopBtn');
+                
+                stopBtn.disabled = true;
+                stopBtn.textContent = '⏳ Deteniendo...';
+
+                // Detener webcam
+                const response = await fetch(`${API_URL}/webcam/stop`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                // Ocultar stream
+                const videoStream = document.getElementById('videoStream');
+                const placeholder = document.getElementById('placeholder');
+                
+                videoStream.src = '';
+                videoStream.style.display = 'none';
+                placeholder.style.display = 'flex';
+                placeholder.textContent = '📷 Presiona "Iniciar Cámara" para comenzar';
+                
+                // Actualizar estado
+                updateStatus(false);
+                
+                // Detener polling
+                stopRecognitionPolling();
+                
+                // Limpiar resultados
+                document.getElementById('recognitionResults').innerHTML = 
+                    '<div class="no-faces">No hay datos disponibles</div>';
+                
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+                stopBtn.textContent = '⏹ Detener Cámara';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al detener la cámara');
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('stopBtn').textContent = '⏹ Detener Cámara';
+            }
+        }
+
+        function startRecognitionPolling() {
+            recognitionInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_URL}/webcam/recognition`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'active') {
+                        displayRecognitionData(data);
+                    }
+                } catch (error) {
+                    console.error('Error al obtener datos de reconocimiento:', error);
+                }
+            }, 500); // Actualizar cada 500ms
+        }
+
+        function stopRecognitionPolling() {
+            if (recognitionInterval) {
+                clearInterval(recognitionInterval);
+                recognitionInterval = null;
+            }
+        }
+
+        function displayRecognitionData(data) {
+            const resultsDiv = document.getElementById('recognitionResults');
+            
+            if (!data.faces || data.faces.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-faces">No se detectaron caras</div>';
+                return;
+            }
+            
+            let html = '';
+            data.faces.forEach((face, index) => {
+                const recognized = face.name !== null;
+                const cardClass = recognized ? 'recognized' : 'unknown';
+                
+                html += `
+                    <div class="face-card ${cardClass}">
+                        <strong>👤 Cara #${index + 1}</strong>
+                        ${recognized ? 
+                            `<div style="margin-top: 10px;">
+                                <div style="font-size: 1.2em; color: #4CAF50; margin-bottom: 5px;">
+                                    ✓ ${face.name}
+                                </div>
+                                <span class="similarity-badge ${getSimilarityClass(face.similarity)}">
+                                    Similitud: ${(face.similarity * 100).toFixed(1)}%
+                                </span>
+                            </div>` :
+                            `<div style="margin-top: 10px; color: #ff9800;">
+                                ⚠ Persona no reconocida
+                            </div>`
+                        }
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        function getSimilarityClass(similarity) {
+            if (similarity >= 0.8) return 'similarity-high';
+            if (similarity >= 0.6) return 'similarity-medium';
+            return 'similarity-low';
+        }
+
+        function updateStatus(isActive) {
+            const statusDiv = document.getElementById('status');
+            if (isActive) {
+                statusDiv.className = 'status active';
+                statusDiv.textContent = '🟢 Cámara Activa';
+            } else {
+                statusDiv.className = 'status inactive';
+                statusDiv.textContent = '⚫ Cámara Inactiva';
+            }
+        }
+
+        // Detener la cámara al cerrar la página
+        window.addEventListener('beforeunload', () => {
+            if (recognitionInterval) {
+                fetch(`${API_URL}/webcam/stop`, { method: 'POST' });
+            }
+        });
+    </script>
+</body>
+</html>

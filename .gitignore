@@ -1,0 +1,316 @@
+# ========================================
+# PROYECTO: Sistema de Gestión de Gimnasio
+# ========================================
+
+# ============================================
+# ENTORNOS VIRTUALES DE PYTHON
+# ============================================
+
+# API CRUD (Python 32 bits)
+apiCRUD/venv32/
+apiCRUD/venv/
+apiCRUD/ENV/
+apiCRUD/env/
+
+# API Face Recognition (Python 64 bits)
+apiFace/venv_compreface/
+apiFace/venv/
+apiFace/ENV/
+apiFace/env/
+
+# Otros entornos virtuales
+venv/
+env/
+ENV/
+.venv/
+
+# ============================================
+# PYTHON - ARCHIVOS COMPILADOS Y CACHE
+# ============================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# ============================================
+# CERTIFICADOS SSL (HTTPS)
+# ============================================
+
+# Certificados autofirmados (no subir)
+**/certs/
+*.pem
+*.key
+*.crt
+*.csr
+*.der
+
+# ============================================
+# BASES DE DATOS
+# ============================================
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Backups de bases de datos
+*_backup*.db
+backup_*.db
+
+# ============================================
+# ARCHIVOS SUBIDOS Y TEMPORALES
+# ============================================
+
+# Uploads de imágenes en API Face
+apiFace/API/uploads/
+**/uploads/
+
+# Imágenes temporales
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.webp
+
+# Excepciones: logos y assets del frontend
+!frontend/src/assets/**/*.jpg
+!frontend/src/assets/**/*.jpeg
+!frontend/src/assets/**/*.png
+!frontend/public/**/*.jpg
+!frontend/public/**/*.jpeg
+!frontend/public/**/*.png
+
+# ============================================
+# NODE.JS Y FRONTEND
+# ============================================
+
+# Dependencies
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+.next/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+
+# Production
+*.local
+
+# Parcel cache
+.cache/
+.parcel-cache/
+
+# ============================================
+# IDEs Y EDITORES
+# ============================================
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains (PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# Visual Studio
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# SISTEMA OPERATIVO
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.Trash-*
+.directory
+.nfs*
+
+# ============================================
+# DOCKER
+# ============================================
+
+# Docker compose override
+docker-compose.override.yml
+
+# ============================================
+# VARIABLES DE ENTORNO Y CONFIGURACIÓN
+# ============================================
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Configuraciones sensibles
+config.local.json
+secrets.json
+
+# ============================================
+# OTROS
+# ============================================
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# mkdocs
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+cython_debug/
+
+# ============================================
+# PROYECTO ESPECÍFICO
+# ============================================
+
+# Archivos de migración y scripts temporales
+migrar_a_sqlite.py.backup
+crearBDD.py.backup
+
+# Exports de datos temporales
+*.json.backup
+export_*.json
+export_*.csv
+
+# Logs del proyecto
+api_*.log
+frontend_*.log
+app_*.log

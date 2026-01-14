@@ -1,0 +1,58 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .main-text { 
+        fill: white; 
+        font-family: 'Arial Black', Arial, sans-serif; 
+        font-weight: 900;
+        font-style: italic;
+      }
+      .subtitle-text { 
+        fill: white; 
+        font-family: Arial, sans-serif; 
+        font-size: 20px;
+        letter-spacing: 8px;
+      }
+      .subtext { 
+        fill: white; 
+        font-family: Arial, sans-serif; 
+        font-size: 18px;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="400" fill="#000000"/>
+  
+  <!-- Outer red circle with notches -->
+  <g>
+    <!-- Main circle segments -->
+    <path d="M 200 20 A 180 180 0 0 1 360 110" fill="none" stroke="#FF0000" stroke-width="20"/>
+    <path d="M 370 200 A 180 180 0 0 1 290 370" fill="none" stroke="#FF0000" stroke-width="20"/>
+    <path d="M 200 380 A 180 180 0 0 1 40 290" fill="none" stroke="#FF0000" stroke-width="20"/>
+    <path d="M 30 200 A 180 180 0 0 1 110 30" fill="none" stroke="#FF0000" stroke-width="20"/>
+    
+    <!-- Red notches/brackets -->
+    <rect x="185" y="10" width="30" height="25" fill="#FF0000"/>
+    <rect x="185" y="365" width="30" height="25" fill="#FF0000"/>
+    <rect x="10" y="185" width="25" height="30" fill="#FF0000"/>
+    <rect x="365" y="185" width="25" height="30" fill="#FF0000"/>
+  </g>
+  
+  <!-- Inner circle -->
+  <circle cx="200" cy="200" r="150" fill="none" stroke="#FF0000" stroke-width="3"/>
+  
+  <!-- Text Content -->
+  <g>
+    <text x="200" y="160" text-anchor="middle" class="main-text" font-size="48">VITO'S</text>
+    <text x="200" y="220" text-anchor="middle" class="main-text" font-size="72">GYM</text>
+    <text x="200" y="260" text-anchor="middle" class="subtitle-text">CLUB</text>
+    
+    <!-- Line separator -->
+    <line x1="120" y1="275" x2="145" y2="275" stroke="#FF0000" stroke-width="2"/>
+    <line x1="255" y1="275" x2="280" y2="275" stroke="#FF0000" stroke-width="2"/>
+    
+    <text x="200" y="295" text-anchor="middle" class="subtext">Bodybuilding</text>
+    <text x="200" y="310" text-anchor="middle" class="subtext" font-size="16">& Fitness</text>
+  </g>
+</svg>

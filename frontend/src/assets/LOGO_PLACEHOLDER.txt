@@ -1,0 +1,12 @@
+/* Este es un archivo placeholder para el logo de Vito's Gym
+ * 
+ * IMPORTANTE: Debes reemplazar este archivo con la imagen real del logo.
+ * 
+ * Para hacerlo:
+ * 1. Guarda la imagen del logo como 'vitos-gym-logo.png'
+ * 2. Colócala en esta misma carpeta: frontend/src/assets/
+ * 3. La aplicación detectará automáticamente el logo
+ * 
+ * Si el logo está en otro formato (jpg, svg, etc.), 
+ * actualiza también la importación en src/App.tsx
+ */
