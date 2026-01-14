@@ -161,29 +161,35 @@ CompreFace es una solución de código abierto de reconocimiento facial desarrol
 **Pasos:**
 
 1. **Descargar la última versión**
+
    - Visita: https://github.com/exadel-inc/CompreFace/releases
    - Descarga el archivo `.zip` de la última release
 
 2. **Extraer el archivo**
+
    ```bash
    # Descomprime el archivo descargado en una carpeta
    # Ejemplo: C:\CompreFace
    ```
 
 3. **Ejecutar Docker Desktop**
+
    - Asegúrate de que Docker Desktop esté corriendo
 
 4. **Abrir Command Prompt (CMD)**
+
    - Windows: Busca "cmd" en el menú inicio
    - Presiona Enter
 
 5. **Navegar a la carpeta**
+
    ```bash
    cd C:\ruta\donde\extrajiste\CompreFace
    # Ejemplo: cd C:\CompreFace
    ```
 
 6. **Ejecutar docker-compose**
+
    ```bash
    docker-compose up -d
    ```
@@ -206,6 +212,7 @@ docker ps
 ```
 
 **Acceder a CompreFace:**
+
 - Abre tu navegador y visita: http://localhost:8000
 
 #### Configurar CompreFace
@@ -222,6 +229,7 @@ API_KEY = "TU_API_KEY_AQUÍ"  # Reemplazar con tu API Key
 ```
 
 **Documentación oficial de CompreFace:**
+
 - GitHub: https://github.com/exadel-inc/CompreFace
 - Releases: https://github.com/exadel-inc/CompreFace/releases
 - Getting Started: https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface
@@ -265,6 +273,7 @@ pip install -r requirements.txt
 ```
 
 Esto instalará:
+
 - FastAPI
 - Uvicorn
 - Pydantic
@@ -345,6 +354,7 @@ pip install -r requirements.txt
 ```
 
 Esto instalará:
+
 - FastAPI
 - Uvicorn
 - OpenCV (cv2)
@@ -381,6 +391,7 @@ npm install
 ```
 
 Esto instalará:
+
 - React 18
 - TypeScript
 - Vite
