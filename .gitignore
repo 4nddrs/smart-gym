@@ -99,6 +99,10 @@ coverage.xml
 *.sqlite3
 *.db-journal
 
+# Excepción: Incluir base de datos principal del proyecto
+!gimnasio.db
+!apiCRUD/gimnasio.db
+
 # Backups de bases de datos
 *_backup*.db
 backup_*.db
