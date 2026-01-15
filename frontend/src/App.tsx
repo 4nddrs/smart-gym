@@ -190,7 +190,7 @@ function App() {
     }
   };
 
-  const handleSaveUser = async (user: User) => {
+  const handleSaveUser = async (user: User): Promise<string | undefined> => {
     try {
       setLoading(true);
       
@@ -211,10 +211,13 @@ function App() {
         numero_documento: user.numero_documento,
       };
 
+      console.log('Datos enviados a la API:', userData);
+
+      let userId: string;
       if (editingUser && (editingUser._id || editingUser.id)) {
         // Actualizar usuario existente
-        const userId = editingUser._id || editingUser.id!;
-        await apiService.updateUser(userId, userData);
+        userId = String(editingUser._id || editingUser.id!);
+        await apiService.updateUser(editingUser._id || editingUser.id!, userData);
         setSnackbar({
           open: true,
           message: 'Usuario actualizado exitosamente',
@@ -222,7 +225,8 @@ function App() {
         });
       } else {
         // Crear nuevo usuario
-        await apiService.createUser(userData);
+        const response = await apiService.createUser(userData);
+        userId = String(response.id);
         setSnackbar({
           open: true,
           message: 'Usuario registrado exitosamente',
@@ -233,8 +237,10 @@ function App() {
       setEditingUser(null);
       setCurrentView('list');
       await loadUsers(); // Recargar la lista
+      return userId;
     } catch (error: any) {
       console.error('Error al guardar usuario:', error);
+      console.error('Mensaje de error:', error.message);
       setSnackbar({
         open: true,
         message: error.message || 'Error al guardar usuario',
@@ -283,11 +289,8 @@ function App() {
   };
 
   const handleFaceID = (user?: User) => {
-    if (user) {
-      alert(`Iniciar FaceID para: ${user.nombre} ${user.apellido}\n\nFuncionalidad en desarrollo...`);
-    } else {
-      alert('Iniciar FaceID\n\nFuncionalidad en desarrollo...');
-    }
+    // Abrir la página de reconocimiento facial en una nueva pestaña
+    window.open('/face-recognition.html', '_blank', 'noopener,noreferrer');
   };
 
   const handleCloseSnackbar = () => {

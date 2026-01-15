@@ -1,13 +1,19 @@
-import { useState, useEffect } from 'react';
-import { Box, Paper, TextField, MenuItem, Button, Typography, Grid } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import { Box, Paper, TextField, MenuItem, Button, Typography, Grid, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import CancelIcon from '@mui/icons-material/Cancel';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { User } from '../types/User';
+import { faceRecognitionService } from '../services/api';
 
 interface UserFormProps {
   user?: User | null;
-  onSave: (user: User) => void;
+  onSave: (user: User) => Promise<string | undefined>;
   onCancel: () => void;
   onFaceID: () => void;
 }
@@ -29,6 +35,15 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
     numero_documento: '',
   });
 
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const [capturedBlobs, setCapturedBlobs] = useState<Blob[]>([]);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [uploadingFaces, setUploadingFaces] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
     if (user) {
       setFormData({
@@ -40,6 +55,15 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
     }
   }, [user]);
 
+  // Limpiar stream de cámara cuando se cierra el diálogo
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -48,9 +72,131 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    
+    // Primero guardar el usuario y obtener su ID
+    const userId = await onSave(formData);
+    
+    // Luego subir las imágenes faciales si hay alguna
+    if (capturedBlobs.length > 0 && userId) {
+      try {
+        setUploadingFaces(true);
+        const subject = userId;
+        
+        // Verificar que los blobs tengan contenido
+        console.log('Blobs capturados:', capturedBlobs.length);
+        capturedBlobs.forEach((blob, i) => {
+          console.log(`Blob ${i}: tamaño=${blob.size}, tipo=${blob.type}`);
+        });
+        
+        // Convertir los blobs a archivos
+        const imageFiles = capturedBlobs.map((blob, index) => {
+          const file = new File([blob], `face_${index}.jpg`, { 
+            type: 'image/jpeg',
+            lastModified: Date.now()
+          });
+          console.log(`File ${index}: tamaño=${file.size}, tipo=${file.type}, nombre=${file.name}`);
+          return file;
+        });
+        
+        console.log('Subiendo', imageFiles.length, 'imágenes faciales para:', subject);
+        await faceRecognitionService.addFaces(subject, imageFiles);
+        console.log('Imágenes faciales subidas exitosamente');
+        alert('¡Imágenes faciales subidas exitosamente!');
+        
+        // Limpiar las imágenes capturadas después de subirlas exitosamente
+        setCapturedImages([]);
+        setCapturedBlobs([]);
+      } catch (error: any) {
+        console.error('Error al subir imágenes faciales:', error);
+        alert(`Error al subir las imágenes faciales: ${error.message}`);
+      } finally {
+        setUploadingFaces(false);
+      }
+    }
+  };
+
+  const openCamera = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'user' }
+      });
+      setStream(mediaStream);
+      setCameraOpen(true);
+      
+      // Dar tiempo para que el video se inicialice
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+          videoRef.current.play();
+        }
+        setVideoReady(true);
+      }, 500);
+    } catch (error) {
+      console.error('Error al acceder a la cámara:', error);
+      alert('No se pudo acceder a la cámara. Verifica los permisos.');
+    }
+  };
+
+  const closeCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    setVideoReady(false);
+    setCameraOpen(false);
+  };
+
+  const capturePhoto = () => {
+    if (!videoRef.current || !canvasRef.current) return;
+    
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    canvas.toBlob((blob) => {
+      if (blob && blob.size > 0) {
+        setCapturedBlobs(prev => [...prev, blob]);
+        const imageUrl = URL.createObjectURL(blob);
+        setCapturedImages(prev => [...prev, imageUrl]);
+      }
+    }, 'image/jpeg', 0.9);
+  };
+
+  const deleteImage = (index: number) => {
+    setCapturedImages(prev => prev.filter((_, i) => i !== index));
+    setCapturedBlobs(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach(file => {
+      if (file.type.startsWith('image/')) {
+        // Agregar el blob del archivo
+        setCapturedBlobs(prev => [...prev, file]);
+        
+        // Crear URL para vista previa
+        const imageUrl = URL.createObjectURL(file);
+        setCapturedImages(prev => [...prev, imageUrl]);
+      }
+    });
+
+    // Limpiar el input para permitir seleccionar los mismos archivos nuevamente
+    event.target.value = '';
+  };
+
+  const handleCameraClose = () => {
+    closeCamera();
   };
 
   const departamentos = [
@@ -370,6 +516,111 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
                 sx={textFieldStyle}
               />
             </Grid>
+
+            {/* Sección de Captura de Rostro */}
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  p: 3,
+                  background: 'rgba(255, 59, 59, 0.1)',
+                  borderRadius: '16px',
+                  border: '2px dashed rgba(255, 59, 59, 0.3)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 2,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: '#ff6b6b',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                >
+                  <FingerprintIcon />
+                  Reconocimiento Facial
+                </Typography>
+                
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Button
+                    variant="contained"
+                    startIcon={<CameraAltIcon />}
+                    onClick={openCamera}
+                    sx={{
+                      px: 4,
+                      py: 1.5,
+                      background: 'linear-gradient(135deg, #ff6b6b 0%, #ff3b3b 100%)',
+                      fontWeight: 600,
+                      borderRadius: '12px',
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #ff3b3b 0%, #cc0000 100%)',
+                      },
+                    }}
+                  >
+                    Usar Cámara
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    component="label"
+                    startIcon={<UploadFileIcon />}
+                    sx={{
+                      px: 4,
+                      py: 1.5,
+                      background: 'linear-gradient(135deg, #444 0%, #222 100%)',
+                      fontWeight: 600,
+                      borderRadius: '12px',
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #555 0%, #333 100%)',
+                      },
+                    }}
+                  >
+                    Subir Fotos
+                    <input
+                      type="file"
+                      hidden
+                      multiple
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                    />
+                  </Button>
+                </Box>
+
+                {capturedImages.length > 0 && (
+                  <Box sx={{ width: '100%', mt: 2 }}>
+                    <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 2 }}>
+                      {capturedImages.length} {capturedImages.length === 1 ? 'foto capturada' : 'fotos capturadas'}
+                    </Typography>
+                    <ImageList cols={4} gap={8}>
+                      {capturedImages.map((img, index) => (
+                        <ImageListItem key={index}>
+                          <img
+                            src={img}
+                            alt={`Captura ${index + 1}`}
+                            loading="lazy"
+                            style={{ borderRadius: '8px' }}
+                          />
+                          <ImageListItemBar
+                            actionIcon={
+                              <IconButton
+                                sx={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                                onClick={() => deleteImage(index)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            }
+                          />
+                        </ImageListItem>
+                      ))}
+                    </ImageList>
+                  </Box>
+                )}
+              </Box>
+            </Grid>
           </Grid>
 
           <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -377,6 +628,7 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
               type="submit"
               variant="contained"
               startIcon={<SaveIcon />}
+              disabled={uploadingFaces}
               sx={{
                 px: 4,
                 py: 1.5,
@@ -392,31 +644,7 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
                 transition: 'all 0.3s ease',
               }}
             >
-              {user ? 'Actualizar' : 'Registrar'}
-            </Button>
-
-            <Button
-              variant="outlined"
-              startIcon={<FingerprintIcon />}
-              onClick={onFaceID}
-              sx={{
-                px: 4,
-                py: 1.5,
-                color: '#ff3b3b',
-                borderColor: '#ff3b3b',
-                fontWeight: 600,
-                borderRadius: '12px',
-                borderWidth: '2px',
-                '&:hover': {
-                  borderColor: '#ff6b6b',
-                  borderWidth: '2px',
-                  backgroundColor: 'rgba(255, 59, 59, 0.1)',
-                  transform: 'translateY(-2px)',
-                },
-                transition: 'all 0.3s ease',
-              }}
-            >
-              Iniciar FACEID
+              {uploadingFaces ? 'Subiendo imágenes...' : (user ? 'Actualizar' : 'Registrar')}
             </Button>
 
             {user && (
@@ -447,6 +675,107 @@ const UserForm = ({ user, onSave, onCancel, onFaceID }: UserFormProps) => {
           </Box>
         </form>
       </Paper>
+
+      {/* Diálogo de Cámara */}
+      <Dialog
+        open={cameraOpen}
+        onClose={handleCameraClose}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(18, 18, 18, 0.98) 100%)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 59, 59, 0.3)',
+          },
+        }}
+      >
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          background: 'linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <PhotoCameraIcon sx={{ color: '#ff3b3b' }} />
+            <span>Captura de Rostro</span>
+          </Box>
+          <IconButton onClick={handleCameraClose} sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ pt: 3 }}>
+          <Box sx={{ 
+            position: 'relative', 
+            width: '100%', 
+            borderRadius: '12px',
+            overflow: 'hidden',
+            mb: 2,
+          }}>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                borderRadius: '12px',
+              }}
+            />
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+          </Box>
+          
+          <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 2, textAlign: 'center' }}>
+            Posiciona tu rostro en el centro y captura varias fotos desde diferentes ángulos
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ p: 3, gap: 2, justifyContent: 'center' }}>
+          <Button
+            onClick={capturePhoto}
+            variant="contained"
+            startIcon={<PhotoCameraIcon />}
+            disabled={!videoReady}
+            sx={{
+              px: 4,
+              py: 1.5,
+              background: 'linear-gradient(135deg, #ff3b3b 0%, #ff6b6b 100%)',
+              fontWeight: 600,
+              borderRadius: '12px',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #ff6b6b 0%, #ff3b3b 100%)',
+              },
+              '&:disabled': {
+                opacity: 0.5,
+              },
+            }}
+          >
+            {videoReady ? `Capturar Foto (${capturedImages.length})` : 'Cargando...'}
+          </Button>
+          <Button
+            onClick={handleCameraClose}
+            variant="outlined"
+            sx={{
+              px: 4,
+              py: 1.5,
+              color: 'rgba(255, 255, 255, 0.7)',
+              borderColor: 'rgba(255, 255, 255, 0.3)',
+              fontWeight: 600,
+              borderRadius: '12px',
+              borderWidth: '2px',
+              '&:hover': {
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+                borderWidth: '2px',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              },
+            }}
+          >
+            Finalizar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
