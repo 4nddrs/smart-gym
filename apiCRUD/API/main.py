@@ -195,7 +195,9 @@ async def verificar_estado_membresia(usuario_id: int):
             )
         
         # Determinar el estado de la membresía
-        estado = "VALIDO" if fecha_actual <= fecha_fin else "VENCIDO"
+        # La membresía es válida si la fecha actual es MENOR que la fecha de fin
+        # (la fecha de fin es el primer día NO válido)
+        estado = "VALIDO" if fecha_actual < fecha_fin else "VENCIDO"
         
         return EstadoMembresia(
             nombre=usuario_encontrado.nombre,
