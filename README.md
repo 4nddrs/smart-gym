@@ -1,54 +1,54 @@
-# 🏋️ Sistema de Gestión de Gimnasio - Vito's Gym Club
+# 🏋️ Gym Management System - Vito's Gym Club
 
 <div align="center">
 
-![Estado](https://img.shields.io/badge/estado-activo-success.svg)
-![Versión](https://img.shields.io/badge/versión-1.0.0-blue.svg)
+![Status](https://img.shields.io/badge/status-active-success.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![Node](https://img.shields.io/badge/node-18+-green.svg)
 ![Docker](https://img.shields.io/badge/docker-required-2496ED.svg)
 
-Sistema completo de gestión de usuarios con reconocimiento facial para gimnasios.
+Complete user management system with facial recognition for gyms.
 
 </div>
 
 ---
 
-## 📋 Tabla de Contenidos
+## 📋 Table of Contents
 
-- [Descripción General](#-descripción-general)
-- [Arquitectura del Sistema](#-arquitectura-del-sistema)
-- [Tecnologías Utilizadas](#-tecnologías-utilizadas)
-- [Requisitos Previos](#-requisitos-previos)
-- [Instalación y Despliegue](#-instalación-y-despliegue)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Configuración de Red Local](#-configuración-de-red-local)
-- [Uso del Sistema](#-uso-del-sistema)
-- [Solución de Problemas](#-solución-de-problemas)
-
----
-
-## 🎯 Descripción General
-
-Sistema integral de gestión de gimnasio que combina un **frontend moderno en React** con dos APIs especializadas en Python:
-
-1. **API CRUD**: Gestión completa de usuarios (crear, leer, actualizar, eliminar)
-2. **API Face Recognition**: Reconocimiento facial en tiempo real usando CompreFace
-3. **Frontend**: Interfaz de usuario intuitiva con Material-UI
-
-### 🌟 Características Principales
-
-- ✅ **CRUD Completo** de usuarios con SQLite
-- ✅ **Reconocimiento Facial** en tiempo real con webcam
-- ✅ **Certificados HTTPS** autofirmados para desarrollo
-- ✅ **Acceso en Red Local** desde múltiples dispositivos
-- ✅ **Interfaz Moderna** con React + TypeScript + Material-UI
-- ✅ **API Documentada** con Swagger/FastAPI Docs
-- ✅ **Streaming de Video** MJPEG desde webcam
+- [Overview](#-overview)
+- [System Architecture](#-system-architecture)
+- [Technologies Used](#-technologies-used)
+- [Prerequisites](#-prerequisites)
+- [Installation and Deployment](#-installation-and-deployment)
+- [Project Structure](#-project-structure)
+- [Local Network Configuration](#-local-network-configuration)
+- [System Usage](#-system-usage)
+- [Troubleshooting](#-troubleshooting)
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## 🎯 Overview
+
+Comprehensive gym management system that combines a **modern React frontend** with two specialized Python APIs:
+
+1. **CRUD API**: Complete user management (create, read, update, delete)
+2. **Face Recognition API**: Real-time facial recognition using CompreFace
+3. **Frontend**: Intuitive user interface with Material-UI
+
+### 🌟 Key Features
+
+- ✅ **Complete CRUD** of users with SQLite
+- ✅ **Facial Recognition** in real-time with webcam
+- ✅ **Self-signed HTTPS Certificates** for development
+- ✅ **Local Network Access** from multiple devices
+- ✅ **Modern Interface** with React + TypeScript + Material-UI
+- ✅ **Documented API** with Swagger/FastAPI Docs
+- ✅ **MJPEG Video Streaming** from webcam
+
+---
+
+## 🏗️ System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -59,8 +59,8 @@ Sistema integral de gestión de gimnasio que combina un **frontend moderno en Re
                │                     │
                ▼                     ▼
    ┌────────────────────┐  ┌──────────────────────┐
-   │    API CRUD        │  │   API Face Recognition│
-   │ (Python 32-bits)   │  │   (Python 64-bits)    │
+   │    CRUD API        │  │   Face Recognition API│
+   │ (Python 32-bit)    │  │   (Python 64-bit)     │
    │ https://localhost: │  │  https://localhost:   │
    │       8001         │  │        8002           │
    └──────┬─────────────┘  └──────┬───────────────┘
@@ -73,270 +73,270 @@ Sistema integral de gestión de gimnasio que combina un **frontend moderno en Re
                           └──────────────────┘
 ```
 
-### Flujo de Trabajo
+### Workflow
 
-1. **Usuario accede al frontend** → React App (puerto 5173)
-2. **Operaciones CRUD** → Frontend → API CRUD (puerto 8001) → SQLite
-3. **Registro facial** → Frontend → API Face (puerto 8002) → CompreFace (puerto 8000)
-4. **Reconocimiento en vivo** → Webcam → API Face → CompreFace → Frontend
+1. **User accesses frontend** → React App (port 5173)
+2. **CRUD operations** → Frontend → CRUD API (port 8001) → SQLite
+3. **Face registration** → Frontend → Face API (port 8002) → CompreFace (port 8000)
+4. **Live recognition** → Webcam → Face API → CompreFace → Frontend
 
 ---
 
-## 💻 Tecnologías Utilizadas
+## 💻 Technologies Used
 
 ### Frontend
 
-- **React 18** - Framework UI
+- **React 18** - UI Framework
 - **TypeScript** - Type safety
-- **Vite** - Build tool ultra-rápido
-- **Material-UI (MUI)** - Componentes UI
+- **Vite** - Ultra-fast build tool
+- **Material-UI (MUI)** - UI Components
 - **Emotion** - CSS-in-JS
 
-### Backend - API CRUD (Python 32 bits)
+### Backend - CRUD API (Python 32-bit)
 
-- **FastAPI** - Framework web moderno
-- **Pydantic** - Validación de datos
-- **SQLite** - Base de datos
-- **Uvicorn** - Servidor ASGI
-- **PyOpenSSL** - Certificados SSL
+- **FastAPI** - Modern web framework
+- **Pydantic** - Data validation
+- **SQLite** - Database
+- **Uvicorn** - ASGI server
+- **PyOpenSSL** - SSL certificates
 
-### Backend - API Face Recognition (Python 64 bits)
+### Backend - Face Recognition API (Python 64-bit)
 
-- **FastAPI** - Framework web
-- **CompreFace Python SDK** - Reconocimiento facial
-- **OpenCV** (cv2) - Captura de video
-- **Uvicorn** - Servidor ASGI
+- **FastAPI** - Web framework
+- **CompreFace Python SDK** - Facial recognition
+- **OpenCV** (cv2) - Video capture
+- **Uvicorn** - ASGI server
 
-### Infraestructura
+### Infrastructure
 
 - **Docker** - CompreFace container
-- **CompreFace** - Motor de reconocimiento facial
-- **HTTPS** - Certificados autofirmados
+- **CompreFace** - Facial recognition engine
+- **HTTPS** - Self-signed certificates
 
 ---
 
-## 📦 Requisitos Previos
+## 📦 Prerequisites
 
-### Software Necesario
+### Required Software
 
-| Software                  | Versión Mínima | Propósito            |
-| ------------------------- | -------------- | -------------------- |
-| **Python 3.8+** (32-bits) | 3.8            | API CRUD             |
-| **Python 3.8+** (64-bits) | 3.8            | API Face Recognition |
-| **Node.js**               | 18.x           | Frontend             |
-| **npm**                   | 9.x            | Gestor de paquetes   |
-| **Docker Desktop**        | Latest         | CompreFace container |
-| **Git**                   | Latest         | Control de versiones |
+| Software                  | Minimum Version | Purpose              |
+| ------------------------- | --------------- | -------------------- |
+| **Python 3.8+** (32-bit)  | 3.8             | CRUD API             |
+| **Python 3.8+** (64-bit)  | 3.8             | Face Recognition API |
+| **Node.js**               | 18.x            | Frontend             |
+| **npm**                   | 9.x             | Package manager      |
+| **Docker Desktop**        | Latest          | CompreFace container |
+| **Git**                   | Latest          | Version control      |
 
-### Hardware Recomendado
+### Recommended Hardware
 
-- **RAM**: 8 GB mínimo (16 GB recomendado)
-- **CPU**: 4 cores mínimo
-- **Webcam**: Cualquier webcam USB o integrada
-- **Disco**: 2 GB libres
+- **RAM**: 8 GB minimum (16 GB recommended)
+- **CPU**: 4 cores minimum
+- **Webcam**: Any USB or integrated webcam
+- **Disk**: 2 GB free space
 
 ---
 
-## 🚀 Instalación y Despliegue
+## 🚀 Installation and Deployment
 
-### 1️⃣ Clonar el Repositorio
+### 1️⃣ Clone the Repository
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
+git clone <REPOSITORY_URL>
 cd gym
 ```
 
-### 2️⃣ Instalar Docker Desktop y CompreFace
+### 2️⃣ Install Docker Desktop and CompreFace
 
-#### Requisitos Previos
+#### Prerequisites
 
-1. **Instalar Docker Desktop**
-   - Descarga desde: https://www.docker.com/products/docker-desktop/
-   - Instala y asegúrate de que Docker esté corriendo
+1. **Install Docker Desktop**
+   - Download from: https://www.docker.com/products/docker-desktop/
+   - Install and make sure Docker is running
 
-#### Opción A: Instalación con Docker Compose (Recomendado)
+#### Option A: Installation with Docker Compose (Recommended)
 
-CompreFace es una solución de código abierto de reconocimiento facial desarrollada por Exadel.
+CompreFace is an open-source facial recognition solution developed by Exadel.
 
-**Pasos:**
+**Steps:**
 
-1. **Descargar la última versión**
+1. **Download the latest version**
 
-   - Visita: https://github.com/exadel-inc/CompreFace/releases
-   - Descarga el archivo `.zip` de la última release
+   - Visit: https://github.com/exadel-inc/CompreFace/releases
+   - Download the `.zip` file from the latest release
 
-2. **Extraer el archivo**
-
-   ```bash
-   # Descomprime el archivo descargado en una carpeta
-   # Ejemplo: C:\CompreFace
-   ```
-
-3. **Ejecutar Docker Desktop**
-
-   - Asegúrate de que Docker Desktop esté corriendo
-
-4. **Abrir Command Prompt (CMD)**
-
-   - Windows: Busca "cmd" en el menú inicio
-   - Presiona Enter
-
-5. **Navegar a la carpeta**
+2. **Extract the file**
 
    ```bash
-   cd C:\ruta\donde\extrajiste\CompreFace
-   # Ejemplo: cd C:\CompreFace
+   # Unzip the downloaded file into a folder
+   # Example: C:\CompreFace
    ```
 
-6. **Ejecutar docker-compose**
+3. **Run Docker Desktop**
+
+   - Make sure Docker Desktop is running
+
+4. **Open Command Prompt (CMD)**
+
+   - Windows: Search for "cmd" in the start menu
+   - Press Enter
+
+5. **Navigate to the folder**
+
+   ```bash
+   cd C:\path\where\you\extracted\CompreFace
+   # Example: cd C:\CompreFace
+   ```
+
+6. **Run docker-compose**
 
    ```bash
    docker-compose up -d
    ```
 
-7. **Verificar instalación**
-   - Abre tu navegador
-   - Visita: http://localhost:8000/login
+7. **Verify installation**
+   - Open your browser
+   - Visit: http://localhost:8000/login
 
-#### Opción B: Instalación Rápida con Docker Hub
+#### Option B: Quick Installation with Docker Hub
 
 ```bash
-# Descargar la imagen de CompreFace desde Docker Hub
+# Download the CompreFace image from Docker Hub
 docker pull exadel/compreface:latest
 
-# Ejecutar el contenedor en el puerto 8000
+# Run the container on port 8000
 docker run -d -p 8000:8000 --name compreface exadel/compreface:latest
 
-# Verificar que está corriendo
+# Verify it's running
 docker ps
 ```
 
-**Acceder a CompreFace:**
+**Access CompreFace:**
 
-- Abre tu navegador y visita: http://localhost:8000
+- Open your browser and visit: http://localhost:8000
 
-#### Configurar CompreFace
+#### Configure CompreFace
 
-1. Crea una cuenta en la interfaz web de CompreFace (http://localhost:8000)
-2. Crea una nueva **aplicación**
-3. Dentro de la aplicación, crea un servicio de **"Recognition"**
-4. Copia el **API Key** generado
-5. Actualiza el archivo `apiFace/API/main.py`:
+1. Create an account in the CompreFace web interface (http://localhost:8000)
+2. Create a new **application**
+3. Inside the application, create a **"Recognition"** service
+4. Copy the generated **API Key**
+5. Update the `apiFace/API/main.py` file:
 
 ```python
-# Línea 23 en apiFace/API/main.py
-API_KEY = "TU_API_KEY_AQUÍ"  # Reemplazar con tu API Key
+# Line 23 in apiFace/API/main.py
+API_KEY = "YOUR_API_KEY_HERE"  # Replace with your API Key
 ```
 
-**Documentación oficial de CompreFace:**
+**Official CompreFace documentation:**
 
 - GitHub: https://github.com/exadel-inc/CompreFace
 - Releases: https://github.com/exadel-inc/CompreFace/releases
 - Getting Started: https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface
 
-**📘 Más información**: Para instrucciones detalladas y opciones avanzadas de instalación, consulta la [guía oficial de Getting Started](https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface).
+**📘 More information**: For detailed instructions and advanced installation options, see the [official Getting Started guide](https://github.com/exadel-inc/CompreFace?tab=readme-ov-file#getting-started-with-compreface).
 
 ---
 
-### 3️⃣ Configurar API CRUD (Python 32 bits)
+### 3️⃣ Configure CRUD API (Python 32-bit)
 
-#### Crear Entorno Virtual de 32 bits
+#### Create 32-bit Virtual Environment
 
-**⚠️ Importante**: Este proyecto requiere Python de **32 bits** debido a dependencias específicas.
+**⚠️ Important**: This project requires **32-bit** Python due to specific dependencies.
 
 ```bash
 cd apiCRUD
 
-# Windows - Instalar Python 32 bits desde python.org si no lo tienes
-# Asegúrate de tener python 32 bits en tu PATH
+# Windows - Install Python 32-bit from python.org if you don't have it
+# Make sure you have 32-bit python in your PATH
 
-# Crear entorno virtual con Python 32 bits
+# Create virtual environment with Python 32-bit
 py -3-32 -m venv venv32
 
-# Activar el entorno virtual
+# Activate the virtual environment
 # Windows PowerShell:
 .\venv32\Scripts\Activate.ps1
 
 # Windows CMD:
 .\venv32\Scripts\activate.bat
 
-# Verificar que es Python 32 bits
+# Verify it's Python 32-bit
 python -c "import struct; print(struct.calcsize('P') * 8)"
-# Debe mostrar: 32
+# Should display: 32
 ```
 
-#### Instalar Dependencias
+#### Install Dependencies
 
 ```bash
 cd API
 pip install -r requirements.txt
 ```
 
-Esto instalará:
+This will install:
 
 - FastAPI
 - Uvicorn
 - Pydantic
 - PyOpenSSL
 
-#### Generar Certificados SSL
+#### Generate SSL Certificates
 
 ```bash
 python generar_certificados.py
 ```
 
-Esto creará la carpeta `certs/` con:
+This will create the `certs/` folder with:
 
-- `cert.pem` - Certificado SSL
-- `key.pem` - Clave privada
+- `cert.pem` - SSL certificate
+- `key.pem` - Private key
 
-#### Iniciar API CRUD
+#### Start CRUD API
 
 ```bash
-# Con HTTPS (producción/red local)
+# With HTTPS (production/local network)
 python run_https.py
 
-# La API estará disponible en:
+# The API will be available at:
 # - https://localhost:8001
-# - https://192.168.x.x:8001 (tu IP local)
-# - Documentación: https://localhost:8001/docs
+# - https://192.168.x.x:8001 (your local IP)
+# - Documentation: https://localhost:8001/docs
 ```
 
 ---
 
-### 4️⃣ Configurar API Face Recognition (Python 64 bits)
+### 4️⃣ Configure Face Recognition API (Python 64-bit)
 
-#### Crear Entorno Virtual de 64 bits
+#### Create 64-bit Virtual Environment
 
-**ℹ️ Nota**: CompreFace SDK y OpenCV requieren Python de **64 bits**.
+**ℹ️ Note**: CompreFace SDK and OpenCV require **64-bit** Python.
 
 ```bash
 cd apiFace
 
-# Crear entorno virtual con Python 64 bits
+# Create virtual environment with Python 64-bit
 python -m venv venv_compreface
 
-# Activar el entorno virtual
+# Activate the virtual environment
 # Windows PowerShell:
 .\venv_compreface\Scripts\Activate.ps1
 
 # Windows CMD:
 .\venv_compreface\Scripts\activate.bat
 
-# Verificar que es Python 64 bits
+# Verify it's Python 64-bit
 python -c "import struct; print(struct.calcsize('P') * 8)"
-# Debe mostrar: 64
+# Should display: 64
 ```
 
-#### Instalar CompreFace SDK
+#### Install CompreFace SDK
 
-**Opción A: Desde PyPI (Recomendado)**
+**Option A: From PyPI (Recommended)**
 
 ```bash
 pip install compreface-sdk
 ```
 
-**Opción B: Desde el código fuente local (si está incluido)**
+**Option B: From local source code (if included)**
 
 ```bash
 cd compreface-python-sdk
@@ -344,53 +344,53 @@ pip install -e .
 cd ..
 ```
 
-**📘 Más información**: Para documentación completa del SDK, ejemplos y referencia de la API, visita el [repositorio oficial del CompreFace Python SDK](https://github.com/exadel-inc/compreface-python-sdk).
+**📘 More information**: For complete SDK documentation, examples, and API reference, visit the [official CompreFace Python SDK repository](https://github.com/exadel-inc/compreface-python-sdk).
 
-#### Instalar Dependencias
+#### Install Dependencies
 
 ```bash
 cd API
 pip install -r requirements.txt
 ```
 
-Esto instalará:
+This will install:
 
 - FastAPI
 - Uvicorn
 - OpenCV (cv2)
 - PyOpenSSL
-- Otras dependencias necesarias
+- Other necessary dependencies
 
-#### Generar Certificados SSL
+#### Generate SSL Certificates
 
 ```bash
 python generate_cert.py
 ```
 
-#### Iniciar API Face Recognition
+#### Start Face Recognition API
 
 ```bash
-# Con HTTPS (producción/red local)
+# With HTTPS (production/local network)
 python run_https.py
 
-# La API estará disponible en:
+# The API will be available at:
 # - https://localhost:8002
-# - https://192.168.x.x:8002 (tu IP local)
-# - Documentación: https://localhost:8002/docs
+# - https://192.168.x.x:8002 (your local IP)
+# - Documentation: https://localhost:8002/docs
 ```
 
 ---
 
-### 5️⃣ Configurar Frontend
+### 5️⃣ Configure Frontend
 
-#### Instalar Dependencias
+#### Install Dependencies
 
 ```bash
 cd frontend
 npm install
 ```
 
-Esto instalará:
+This will install:
 
 - React 18
 - TypeScript
@@ -398,180 +398,180 @@ Esto instalará:
 - Material-UI (MUI)
 - @mui/x-data-grid
 - Emotion (CSS-in-JS)
-- Plugin de SSL para Vite
+- SSL plugin for Vite
 
-#### Configurar URLs de las APIs
+#### Configure API URLs
 
-Edita el archivo `src/services/api.ts` para configurar las IPs de tu red local:
+Edit the `src/services/api.ts` file to configure your local network IPs:
 
 ```typescript
-// Línea 3-5
+// Line 3-5
 const API_BASE_URL =
   window.location.hostname === "localhost"
     ? "https://localhost:8001"
-    : "https://TU_IP_LOCAL:8001"; // Ejemplo: 'https://192.168.0.7:8001'
+    : "https://YOUR_LOCAL_IP:8001"; // Example: 'https://192.168.0.7:8001'
 
-// Línea 129-131
+// Line 129-131
 const FACE_RECOGNITION_API_URL =
   window.location.hostname === "localhost"
     ? "https://localhost:8002"
-    : "https://TU_IP_LOCAL:8002"; // Ejemplo: 'https://192.168.0.7:8002'
+    : "https://YOUR_LOCAL_IP:8002"; // Example: 'https://192.168.0.7:8002'
 ```
 
-**💡 Cómo encontrar tu IP local:**
+**💡 How to find your local IP:**
 
 ```bash
 # Windows PowerShell
 ipconfig
-# Busca "Dirección IPv4" en tu adaptador de red activo
+# Look for "IPv4 Address" in your active network adapter
 
-# Ejemplo de salida:
-# Dirección IPv4. . . . . . . . . . . . . . : 192.168.0.7
+# Example output:
+# IPv4 Address. . . . . . . . . . . . : 192.168.0.7
 ```
 
-#### Iniciar Frontend
+#### Start Frontend
 
 ```bash
 npm run dev
 ```
 
-El frontend estará disponible en:
+The frontend will be available at:
 
 - **Local**: https://localhost:5173
-- **Red Local**: https://TU_IP_LOCAL:5173
-- Ejemplo: https://192.168.0.7:5173
+- **Local Network**: https://YOUR_LOCAL_IP:5173
+- Example: https://192.168.0.7:5173
 
-**Acceso desde otros dispositivos:**
+**Access from other devices:**
 
-- En tu smartphone/tablet, abre el navegador
-- Visita: `https://TU_IP_LOCAL:5173`
-- Acepta el certificado autofirmado
+- On your smartphone/tablet, open the browser
+- Visit: `https://YOUR_LOCAL_IP:5173`
+- Accept the self-signed certificate
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```
 gym/
-├── README.md                    # Este archivo
-├── .gitignore                   # Ignorar archivos sensibles
+├── README.md                    # This file
+├── .gitignore                   # Ignore sensitive files
 │
-├── frontend/                    # 🎨 Aplicación React
+├── frontend/                    # 🎨 React Application
 │   ├── src/
-│   │   ├── components/         # Componentes reutilizables
-│   │   │   ├── UserForm.tsx    # Formulario de usuario
-│   │   │   ├── UserList.tsx    # Lista de usuarios
+│   │   ├── components/         # Reusable components
+│   │   │   ├── UserForm.tsx    # User form
+│   │   │   ├── UserList.tsx    # User list
 │   │   │   └── ...
 │   │   ├── services/
-│   │   │   └── api.ts          # Cliente API (CRUD + Face)
+│   │   │   └── api.ts          # API client (CRUD + Face)
 │   │   ├── types/
-│   │   │   └── User.ts         # Tipos TypeScript
-│   │   ├── App.tsx             # Componente principal
+│   │   │   └── User.ts         # TypeScript types
+│   │   ├── App.tsx             # Main component
 │   │   └── main.tsx            # Entry point
-│   ├── public/                 # Archivos estáticos
+│   ├── public/                 # Static files
 │   ├── package.json
-│   ├── vite.config.ts          # Configuración Vite + HTTPS
+│   ├── vite.config.ts          # Vite + HTTPS configuration
 │   └── tsconfig.json
 │
-├── apiCRUD/                    # 🗄️ API de Gestión de Usuarios
-│   ├── venv32/                 # Entorno virtual Python 32 bits
-│   ├── gimnasio.db             # Base de datos SQLite
-│   ├── gimnasio_db.usuarios.json  # Backup JSON
-│   ├── crearBDD.py             # Script para crear BD
-│   ├── migrar_a_sqlite.py      # Script de migración
+├── apiCRUD/                    # 🗄️ User Management API
+│   ├── venv32/                 # Python 32-bit virtual environment
+│   ├── gimnasio.db             # SQLite database
+│   ├── gimnasio_db.usuarios.json  # JSON backup
+│   ├── crearBDD.py             # Script to create DB
+│   ├── migrar_a_sqlite.py      # Migration script
 │   └── API/
-│       ├── main.py             # API FastAPI principal
-│       ├── models.py           # Modelos Pydantic
-│       ├── database.py         # Operaciones SQLite
-│       ├── requirements.txt    # Dependencias Python
-│       ├── run_https.py        # Ejecutar con HTTPS
-│       ├── generar_certificados.py  # Generar certs SSL
-│       ├── certs/              # Certificados SSL (generados)
-│       └── README.md           # Documentación API CRUD
+│       ├── main.py             # Main FastAPI API
+│       ├── models.py           # Pydantic models
+│       ├── database.py         # SQLite operations
+│       ├── requirements.txt    # Python dependencies
+│       ├── run_https.py        # Run with HTTPS
+│       ├── generar_certificados.py  # Generate SSL certs
+│       ├── certs/              # SSL certificates (generated)
+│       └── README.md           # CRUD API documentation
 │
-└── apiFace/                    # 📸 API de Reconocimiento Facial
-    ├── venv_compreface/        # Entorno virtual Python 64 bits
-    ├── test.py                 # Tests básicos
-    ├── compreface-python-sdk/  # SDK de CompreFace
-    │   ├── compreface/         # Paquete principal
-    │   ├── examples/           # Ejemplos de uso
-    │   ├── tests/              # Tests del SDK
-    │   ├── webcam_demo/        # Demos de webcam
-    │   ├── setup.py            # Instalación del SDK
+└── apiFace/                    # 📸 Facial Recognition API
+    ├── venv_compreface/        # Python 64-bit virtual environment
+    ├── test.py                 # Basic tests
+    ├── compreface-python-sdk/  # CompreFace SDK
+    │   ├── compreface/         # Main package
+    │   ├── examples/           # Usage examples
+    │   ├── tests/              # SDK tests
+    │   ├── webcam_demo/        # Webcam demos
+    │   ├── setup.py            # SDK installation
     │   └── README.md
     └── API/
-        ├── main.py             # API FastAPI principal
-        ├── run_https.py        # Ejecutar con HTTPS
-        ├── generate_cert.py    # Generar certs SSL
-        ├── webcam_demo.html    # Demo standalone de webcam
-        ├── certs/              # Certificados SSL (generados)
-        ├── uploads/            # Imágenes subidas (temp)
-        └── README.md           # Documentación API Face
+        ├── main.py             # Main FastAPI API
+        ├── run_https.py        # Run with HTTPS
+        ├── generate_cert.py    # Generate SSL certs
+        ├── webcam_demo.html    # Standalone webcam demo
+        ├── certs/              # SSL certificates (generated)
+        ├── uploads/            # Uploaded images (temp)
+        └── README.md           # Face API documentation
 ```
 
 ---
 
-## 🔧 Componentes del Sistema
+## 🔧 System Components
 
 ### 1. Frontend (React + TypeScript)
 
-**Ubicación**: `frontend/`
+**Location**: `frontend/`
 
-**Componentes principales:**
+**Main components:**
 
 #### `App.tsx`
 
-- Componente raíz de la aplicación
-- Gestiona el estado global de usuarios
-- Implementa tema dark con Material-UI
-- Maneja navegación entre vistas
+- Root component of the application
+- Manages global user state
+- Implements dark theme with Material-UI
+- Handles navigation between views
 
 #### `UserList.tsx`
 
-- Tabla interactiva de usuarios con DataGrid
-- Filtros, búsqueda y ordenamiento
-- Paginación configurable
-- Acciones: Editar, Eliminar, Reconocimiento Facial
+- Interactive user table with DataGrid
+- Filters, search, and sorting
+- Configurable pagination
+- Actions: Edit, Delete, Facial Recognition
 
 #### `UserForm.tsx`
 
-- Formulario completo de registro/edición
-- Validaciones en tiempo real
-- Campos: Información personal, membresía, contacto
-- Integración con webcam para registro facial
+- Complete registration/editing form
+- Real-time validations
+- Fields: Personal information, membership, contact
+- Webcam integration for facial registration
 
 #### `api.ts`
 
-- Cliente HTTP para comunicación con APIs
-- Funciones CRUD: create, read, update, delete
-- Funciones de reconocimiento facial
-- Gestión de errores
+- HTTP client for API communication
+- CRUD functions: create, read, update, delete
+- Facial recognition functions
+- Error handling
 
-**Características técnicas:**
+**Technical features:**
 
-- Certificados HTTPS autofirmados con `@vitejs/plugin-basic-ssl`
-- Expo en red local con `host: '0.0.0.0'`
-- Puerto fijo: 5173
+- Self-signed HTTPS certificates with `@vitejs/plugin-basic-ssl`
+- Local network exposure with `host: '0.0.0.0'`
+- Fixed port: 5173
 
 ---
 
-### 2. API CRUD (Python 32 bits + FastAPI)
+### 2. CRUD API (Python 32-bit + FastAPI)
 
-**Ubicación**: `apiCRUD/API/`
+**Location**: `apiCRUD/API/`
 
-**Endpoints principales:**
+**Main endpoints:**
 
-| Método | Endpoint                   | Descripción               |
+| Method | Endpoint                   | Description               |
 | ------ | -------------------------- | ------------------------- |
-| GET    | `/`                        | Información de la API     |
-| POST   | `/usuarios`                | Crear nuevo usuario       |
-| GET    | `/usuarios`                | Listar todos los usuarios |
-| GET    | `/usuarios/{id}`           | Obtener usuario por ID    |
-| PUT    | `/usuarios/{id}`           | Actualizar usuario        |
-| DELETE | `/usuarios/{id}`           | Eliminar usuario          |
-| GET    | `/usuarios/{id}/membresia` | Estado de membresía       |
+| GET    | `/`                        | API information           |
+| POST   | `/usuarios`                | Create new user           |
+| GET    | `/usuarios`                | List all users            |
+| GET    | `/usuarios/{id}`           | Get user by ID            |
+| PUT    | `/usuarios/{id}`           | Update user               |
+| DELETE | `/usuarios/{id}`           | Delete user               |
+| GET    | `/usuarios/{id}/membresia` | Membership status         |
 
-**Modelos de datos (Pydantic):**
+**Data models (Pydantic):**
 
 ```python
 class UsuarioCreate:
@@ -589,38 +589,38 @@ class UsuarioCreate:
     numero_documento: Optional[str]
 ```
 
-**Base de datos SQLite:**
+**SQLite database:**
 
-- Archivo: `gimnasio.db`
-- Tabla: `usuarios`
-- Timestamps automáticos: `created_at`, `updated_at`
+- File: `gimnasio.db`
+- Table: `usuarios`
+- Automatic timestamps: `created_at`, `updated_at`
 
-**Configuración HTTPS:**
+**HTTPS configuration:**
 
-- Puerto: 8001
-- Certificados: `certs/cert.pem` y `certs/key.pem`
-- Host: `0.0.0.0` (accesible en red local)
+- Port: 8001
+- Certificates: `certs/cert.pem` and `certs/key.pem`
+- Host: `0.0.0.0` (accessible on local network)
 
 ---
 
-### 3. API Face Recognition (Python 64 bits + FastAPI)
+### 3. Face Recognition API (Python 64-bit + FastAPI)
 
-**Ubicación**: `apiFace/API/`
+**Location**: `apiFace/API/`
 
-**Endpoints principales:**
+**Main endpoints:**
 
-| Método | Endpoint              | Descripción                  |
+| Method | Endpoint              | Description                  |
 | ------ | --------------------- | ---------------------------- |
-| GET    | `/`                   | Estado del servicio          |
+| GET    | `/`                   | Service status               |
 | GET    | `/health`             | Health check                 |
-| POST   | `/add_faces/`         | Agregar rostros de usuario   |
-| POST   | `/webcam/start`       | Iniciar captura de webcam    |
-| POST   | `/webcam/stop`        | Detener captura de webcam    |
-| GET    | `/webcam/status`      | Estado de la webcam          |
-| GET    | `/webcam/stream`      | Stream de video MJPEG        |
-| GET    | `/webcam/recognition` | Datos de reconocimiento JSON |
+| POST   | `/add_faces/`         | Add user faces               |
+| POST   | `/webcam/start`       | Start webcam capture         |
+| POST   | `/webcam/stop`        | Stop webcam capture          |
+| GET    | `/webcam/status`      | Webcam status                |
+| GET    | `/webcam/stream`      | MJPEG video stream           |
+| GET    | `/webcam/recognition` | JSON recognition data        |
 
-**Integración con CompreFace:**
+**CompreFace integration:**
 
 ```python
 from compreface import CompreFace
@@ -631,357 +631,357 @@ recognition = compre_face.init_face_recognition(API_KEY)
 face_collection = recognition.get_face_collection()
 ```
 
-**Funcionalidades:**
+**Features:**
 
-1. **Registro de rostros**: Sube múltiples imágenes de un usuario
-2. **Reconocimiento en tiempo real**: Detecta y reconoce rostros desde webcam
-3. **Streaming de video**: Envía frames al frontend en formato MJPEG
-4. **Gestión de sujetos**: Agregar, actualizar, eliminar rostros en CompreFace
+1. **Face registration**: Upload multiple images of a user
+2. **Real-time recognition**: Detect and recognize faces from webcam
+3. **Video streaming**: Send frames to frontend in MJPEG format
+4. **Subject management**: Add, update, delete faces in CompreFace
 
-**Configuración HTTPS:**
+**HTTPS configuration:**
 
-- Puerto: 8002
-- Certificados: `certs/cert.pem` y `certs/key.pem`
-- Host: `0.0.0.0` (accesible en red local)
+- Port: 8002
+- Certificates: `certs/cert.pem` and `certs/key.pem`
+- Host: `0.0.0.0` (accessible on local network)
 
 ---
 
 ### 4. CompreFace (Docker)
 
-**Imagen Docker**: `exadel/compreface:latest`
+**Docker Image**: `exadel/compreface:latest`
 
-**Instalación:**
+**Installation:**
 
 ```bash
-# Opción 1: Desde Docker Hub (recomendado)
+# Option 1: From Docker Hub (recommended)
 docker pull exadel/compreface:latest
 docker run -d -p 8000:8000 --name compreface exadel/compreface:latest
 
-# Opción 2: Desde GitHub (desarrollo)
+# Option 2: From GitHub (development)
 git clone https://github.com/exadel-inc/CompreFace.git
 cd CompreFace
 docker-compose up -d
 ```
 
-**Acceso:**
+**Access:**
 
 - Web UI: http://localhost:8000
 - API: http://localhost:8000/api/v1/recognition
 
-**Configuración:**
+**Configuration:**
 
-1. Crear cuenta en la web UI
-2. Crear una aplicación
-3. Crear un servicio de "Recognition"
-4. Copiar el API Key
-5. Actualizar `apiFace/API/main.py` con el API Key
+1. Create account in the web UI
+2. Create an application
+3. Create a "Recognition" service
+4. Copy the API Key
+5. Update `apiFace/API/main.py` with the API Key
 
-**Recursos:**
+**Resources:**
 
 - GitHub: https://github.com/exadel-inc/CompreFace
-- Documentación: https://github.com/exadel-inc/CompreFace/tree/master/docs
+- Documentation: https://github.com/exadel-inc/CompreFace/tree/master/docs
 - API Reference: https://github.com/exadel-inc/CompreFace/blob/master/docs/Rest-API-description.md
 
 ---
 
-## 🌐 Configuración de Red Local
+## 🌐 Local Network Configuration
 
-### Configurar Acceso desde Múltiples Dispositivos
+### Configure Access from Multiple Devices
 
-#### 1. Obtener tu IP Local
+#### 1. Get your Local IP
 
 ```powershell
 # Windows PowerShell
 ipconfig
 
-# Busca tu IPv4 en el adaptador de red activo
-# Ejemplo: 192.168.0.7
+# Look for your IPv4 in the active network adapter
+# Example: 192.168.0.7
 ```
 
-#### 2. Configurar Firewall
+#### 2. Configure Firewall
 
-Permite el tráfico en los puertos: **5173**, **8001**, **8002**, **8000**
+Allow traffic on ports: **5173**, **8001**, **8002**, **8000**
 
 ```powershell
-# Windows PowerShell (ejecutar como Administrador)
+# Windows PowerShell (run as Administrator)
 New-NetFirewallRule -DisplayName "Gym App - Frontend" -Direction Inbound -LocalPort 5173 -Protocol TCP -Action Allow
 New-NetFirewallRule -DisplayName "Gym App - API CRUD" -Direction Inbound -LocalPort 8001 -Protocol TCP -Action Allow
 New-NetFirewallRule -DisplayName "Gym App - API Face" -Direction Inbound -LocalPort 8002 -Protocol TCP -Action Allow
 New-NetFirewallRule -DisplayName "Gym App - CompreFace" -Direction Inbound -LocalPort 8000 -Protocol TCP -Action Allow
 ```
 
-#### 3. Actualizar URLs en el Frontend
+#### 3. Update URLs in Frontend
 
-Edita `frontend/src/services/api.ts`:
+Edit `frontend/src/services/api.ts`:
 
 ```typescript
 const API_BASE_URL =
   window.location.hostname === "localhost"
     ? "https://localhost:8001"
-    : "https://192.168.0.7:8001"; // ⚠️ Reemplaza con tu IP
+    : "https://192.168.0.7:8001"; // ⚠️ Replace with your IP
 
 const FACE_RECOGNITION_API_URL =
   window.location.hostname === "localhost"
     ? "https://localhost:8002"
-    : "https://192.168.0.7:8002"; // ⚠️ Reemplaza con tu IP
+    : "https://192.168.0.7:8002"; // ⚠️ Replace with your IP
 ```
 
-#### 4. Acceder desde Otros Dispositivos
+#### 4. Access from Other Devices
 
-En tu smartphone, tablet u otra computadora en la misma red:
+On your smartphone, tablet, or other computer on the same network:
 
-1. Abre el navegador
-2. Visita: `https://TU_IP_LOCAL:5173`
-   - Ejemplo: `https://192.168.0.7:5173`
-3. Acepta el certificado autofirmado
-   - Chrome: "Avanzado" → "Continuar a..."
-   - Safari iOS: Puede requerir instalar el certificado
+1. Open the browser
+2. Visit: `https://YOUR_LOCAL_IP:5173`
+   - Example: `https://192.168.0.7:5173`
+3. Accept the self-signed certificate
+   - Chrome: "Advanced" → "Continue to..."
+   - Safari iOS: May require installing the certificate
 
-**URLs Disponibles:**
+**Available URLs:**
 
-| Servicio   | URL Local              | URL Red                  |
+| Service    | Local URL              | Network URL              |
 | ---------- | ---------------------- | ------------------------ |
 | Frontend   | https://localhost:5173 | https://192.168.0.7:5173 |
-| API CRUD   | https://localhost:8001 | https://192.168.0.7:8001 |
-| API Face   | https://localhost:8002 | https://192.168.0.7:8002 |
+| CRUD API   | https://localhost:8001 | https://192.168.0.7:8001 |
+| Face API   | https://localhost:8002 | https://192.168.0.7:8002 |
 | CompreFace | http://localhost:8000  | http://192.168.0.7:8000  |
 
 ---
 
-## 🎮 Uso del Sistema
+## 🎮 System Usage
 
-### Flujo de Trabajo Completo
+### Complete Workflow
 
-#### 1. Registrar un Nuevo Usuario
+#### 1. Register a New User
 
-1. **Accede al frontend**: https://localhost:5173
-2. Haz clic en el botón **"+ Nuevo Usuario"**
-3. Completa el formulario:
-   - **Información Personal**: Nombre, Apellido, Género, Fecha de Nacimiento
-   - **Membresía**: Código (opcional), Departamento, Fechas de inicio/fin
-   - **Contacto**: Celular, Email, Dirección
-   - **Identificación**: Tipo y número de documento
-4. Haz clic en **"Guardar Usuario"**
+1. **Access the frontend**: https://localhost:5173
+2. Click the **"+ New User"** button
+3. Complete the form:
+   - **Personal Information**: Name, Last Name, Gender, Date of Birth
+   - **Membership**: Code (optional), Department, Start/End Dates
+   - **Contact**: Phone, Email, Address
+   - **Identification**: Document Type and Number
+4. Click **"Save User"**
 
-#### 2. Registrar Rostro del Usuario (Opcional)
+#### 2. Register User's Face (Optional)
 
-1. En la lista de usuarios, localiza al usuario recién creado
-2. Haz clic en el ícono de **"Face ID"** 📷
-3. Se abrirá el diálogo de reconocimiento facial
-4. Haz clic en **"Iniciar Cámara"**
-5. Permite el acceso a la webcam
-6. Posiciona tu rostro en el centro de la cámara
-7. Haz clic en **"Capturar Foto"** varias veces (5-10 fotos)
-   - **Tip**: Captura desde diferentes ángulos y expresiones
-8. Haz clic en **"Enviar Fotos"**
-9. Espera la confirmación de éxito
+1. In the user list, locate the newly created user
+2. Click the **"Face ID"** icon 📷
+3. The facial recognition dialog will open
+4. Click **"Start Camera"**
+5. Allow webcam access
+6. Position your face in the center of the camera
+7. Click **"Capture Photo"** several times (5-10 photos)
+   - **Tip**: Capture from different angles and expressions
+8. Click **"Send Photos"**
+9. Wait for success confirmation
 
-#### 3. Reconocer Usuario por Rostro
+#### 3. Recognize User by Face
 
-1. En el menú principal, haz clic en **"Reconocimiento Facial"**
-2. Haz clic en **"Iniciar Reconocimiento"**
-3. La cámara se activará automáticamente
-4. Aparecerá un recuadro alrededor de rostros detectados
-5. Si el rostro está registrado, verás:
-   - Nombre del usuario
-   - Porcentaje de similitud
-   - Color verde (reconocido) o rojo (desconocido)
+1. In the main menu, click **"Facial Recognition"**
+2. Click **"Start Recognition"**
+3. The camera will activate automatically
+4. A box will appear around detected faces
+5. If the face is registered, you'll see:
+   - User name
+   - Similarity percentage
+   - Green color (recognized) or red (unknown)
 
-#### 4. Editar Usuario
+#### 4. Edit User
 
-1. En la lista de usuarios, haz clic en el ícono de **"Editar"** ✏️
-2. Modifica los campos necesarios
-3. Haz clic en **"Actualizar Usuario"**
+1. In the user list, click the **"Edit"** icon ✏️
+2. Modify the necessary fields
+3. Click **"Update User"**
 
-#### 5. Eliminar Usuario
+#### 5. Delete User
 
-1. En la lista de usuarios, haz clic en el ícono de **"Eliminar"** 🗑️
-2. Confirma la eliminación
-3. El usuario será eliminado de la base de datos
+1. In the user list, click the **"Delete"** icon 🗑️
+2. Confirm deletion
+3. The user will be deleted from the database
 
-#### 6. Filtrar y Buscar Usuarios
+#### 6. Filter and Search Users
 
-1. Usa el campo de búsqueda en la parte superior de la tabla
-2. Filtra por:
-   - Nombre
-   - Apellido
-   - Código
-   - Departamento
+1. Use the search field at the top of the table
+2. Filter by:
+   - Name
+   - Last Name
+   - Code
+   - Department
    - Email
-3. Ordena las columnas haciendo clic en los encabezados
+3. Sort columns by clicking the headers
 
 ---
 
-### Documentación Interactiva de las APIs
+### Interactive API Documentation
 
-#### API CRUD - Swagger UI
+#### CRUD API - Swagger UI
 
-Visita: https://localhost:8001/docs
+Visit: https://localhost:8001/docs
 
-Aquí podrás:
+Here you can:
 
-- Ver todos los endpoints disponibles
-- Probar peticiones directamente desde el navegador
-- Ver esquemas de datos con ejemplos
-- Descargar especificación OpenAPI
+- View all available endpoints
+- Test requests directly from the browser
+- View data schemas with examples
+- Download OpenAPI specification
 
-#### API Face Recognition - Swagger UI
+#### Face Recognition API - Swagger UI
 
-Visita: https://localhost:8002/docs
+Visit: https://localhost:8002/docs
 
-Funcionalidades:
+Features:
 
-- Probar endpoints de reconocimiento facial
-- Subir imágenes de prueba
-- Ver respuestas en tiempo real
-- Documentación de parámetros
+- Test facial recognition endpoints
+- Upload test images
+- View real-time responses
+- Parameter documentation
 
 ---
 
-## 🔍 Solución de Problemas
+## 🔍 Troubleshooting
 
-### ❌ Error: "No se puede conectar a la API"
+### ❌ Error: "Cannot connect to the API"
 
-**Problema**: El frontend no puede comunicarse con las APIs.
+**Problem**: The frontend cannot communicate with the APIs.
 
-**Soluciones**:
+**Solutions**:
 
-1. **Verifica que las APIs están corriendo**:
+1. **Verify the APIs are running**:
 
    ```bash
-   # En cada terminal, deberías ver:
-   # API CRUD: INFO:     Uvicorn running on https://0.0.0.0:8001
-   # API Face: INFO:     Uvicorn running on https://0.0.0.0:8002
+   # In each terminal, you should see:
+   # CRUD API: INFO:     Uvicorn running on https://0.0.0.0:8001
+   # Face API: INFO:     Uvicorn running on https://0.0.0.0:8002
    ```
 
-2. **Verifica las URLs en `frontend/src/services/api.ts`**:
+2. **Verify URLs in `frontend/src/services/api.ts`**:
 
-   - Asegúrate de usar `https://` (no `http://`)
-   - Verifica que la IP sea correcta si accedes desde otro dispositivo
+   - Make sure to use `https://` (not `http://`)
+   - Verify the IP is correct if accessing from another device
 
-3. **Acepta los certificados HTTPS**:
-   - Visita manualmente: https://localhost:8001/docs
-   - Acepta el certificado autofirmado
-   - Repite para: https://localhost:8002/docs
+3. **Accept HTTPS certificates**:
+   - Manually visit: https://localhost:8001/docs
+   - Accept the self-signed certificate
+   - Repeat for: https://localhost:8002/docs
 
 ---
 
-### ❌ Error: "Certificados SSL no encontrados"
+### ❌ Error: "SSL certificates not found"
 
-**Problema**: Al ejecutar `run_https.py` aparece un error de certificados.
+**Problem**: When running `run_https.py` a certificate error appears.
 
-**Solución**:
+**Solution**:
 
 ```bash
-# Para API CRUD
+# For CRUD API
 cd apiCRUD/API
 python generar_certificados.py
 
-# Para API Face
+# For Face API
 cd apiFace/API
 python generate_cert.py
 ```
 
-Verifica que se crearon los archivos:
+Verify the files were created:
 
 - `certs/cert.pem`
 - `certs/key.pem`
 
 ---
 
-### ❌ Error: "CompreFace no responde"
+### ❌ Error: "CompreFace not responding"
 
-**Problema**: La API Face no puede conectarse a CompreFace.
+**Problem**: The Face API cannot connect to CompreFace.
 
-**Soluciones**:
+**Solutions**:
 
-1. **Verifica que el contenedor está corriendo**:
+1. **Verify the container is running**:
 
    ```bash
    docker ps
-   # Debería mostrar: exadel/compreface
+   # Should show: exadel/compreface
    ```
 
-2. **Si no está corriendo, inícialo**:
+2. **If not running, start it**:
 
    ```bash
    docker start compreface
-   # O si no existe:
+   # Or if it doesn't exist:
    docker run -d -p 8000:8000 --name compreface exadel/compreface:latest
    ```
 
-3. **Verifica el acceso**:
+3. **Verify access**:
 
-   - Abre: http://localhost:8000
-   - Deberías ver la interfaz web de CompreFace
+   - Open: http://localhost:8000
+   - You should see the CompreFace web interface
 
-4. **Verifica el API Key**:
-   - Edita `apiFace/API/main.py`
-   - Línea 23: `API_KEY = "TU_API_KEY"`
+4. **Verify API Key**:
+   - Edit `apiFace/API/main.py`
+   - Line 23: `API_KEY = "YOUR_API_KEY"`
 
 ---
 
-### ❌ Error: "Webcam no se inicia"
+### ❌ Error: "Webcam doesn't start"
 
-**Problema**: La webcam no se activa o aparece un error.
+**Problem**: The webcam doesn't activate or an error appears.
 
-**Soluciones**:
+**Solutions**:
 
-1. **Verifica permisos**:
+1. **Verify permissions**:
 
    - Windows: Settings → Privacy → Camera
-   - Permite el acceso a la cámara para tu navegador
+   - Allow camera access for your browser
 
-2. **Cierra otras aplicaciones que usen la cámara**:
+2. **Close other applications using the camera**:
 
    - Zoom, Teams, Skype, etc.
 
-3. **Usa HTTP en lugar de HTTPS** (solo para desarrollo):
+3. **Use HTTP instead of HTTPS** (development only):
 
    ```bash
    cd apiFace/API
    uvicorn main:app --host 0.0.0.0 --port 8002 --reload
    ```
 
-   - Luego actualiza el frontend para usar `http://localhost:8002`
+   - Then update the frontend to use `http://localhost:8002`
 
-4. **Verifica en los logs**:
+4. **Check the logs**:
    ```bash
-   # En la terminal de API Face, busca:
-   INFO:     Webcam iniciada correctamente
+   # In the Face API terminal, look for:
+   INFO:     Webcam started successfully
    ```
 
 ---
 
-### ❌ Error: Python 32/64 bits incorrectos
+### ❌ Error: Incorrect Python 32/64-bit
 
-**Problema**: Al instalar dependencias, aparece un error relacionado con la arquitectura.
+**Problem**: When installing dependencies, an architecture-related error appears.
 
-**Solución**:
+**Solution**:
 
-**Para API CRUD (32 bits)**:
+**For CRUD API (32-bit)**:
 
 ```bash
-# Verifica la versión de Python
+# Verify Python version
 python -c "import struct; print(struct.calcsize('P') * 8)"
-# Debe mostrar: 32
+# Should display: 32
 
-# Si muestra 64, instala Python 32 bits desde:
+# If it displays 64, install Python 32-bit from:
 # https://www.python.org/downloads/windows/
-# Busca "Windows installer (32-bit)"
+# Look for "Windows installer (32-bit)"
 
-# Luego crea el venv con:
+# Then create venv with:
 py -3-32 -m venv venv32
 ```
 
-**Para API Face (64 bits)**:
+**For Face API (64-bit)**:
 
 ```bash
-# Verifica la versión de Python
+# Verify Python version
 python -c "import struct; print(struct.calcsize('P') * 8)"
-# Debe mostrar: 64
+# Should display: 64
 
-# Si muestra 32, usa:
+# If it displays 32, use:
 py -3 -m venv venv_compreface
 ```
 
@@ -989,13 +989,13 @@ py -3 -m venv venv_compreface
 
 ### ❌ Error: "Cannot find module 'vite'"
 
-**Problema**: Al ejecutar `npm run dev` aparece un error de módulo no encontrado.
+**Problem**: When running `npm run dev` a module not found error appears.
 
-**Solución**:
+**Solution**:
 
 ```bash
 cd frontend
-# Elimina node_modules y reinstala
+# Delete node_modules and reinstall
 rm -rf node_modules
 rm package-lock.json
 npm install
@@ -1004,16 +1004,16 @@ npm run dev
 
 ---
 
-### ❌ Error: CORS en el navegador
+### ❌ Error: CORS in browser
 
-**Problema**: En la consola del navegador aparece un error de CORS.
+**Problem**: A CORS error appears in the browser console.
 
-**Solución**:
+**Solution**:
 
-1. **Verifica que las APIs tienen CORS habilitado**:
+1. **Verify the APIs have CORS enabled**:
 
-   - En `apiCRUD/API/main.py` y `apiFace/API/main.py`
-   - Debería haber:
+   - In `apiCRUD/API/main.py` and `apiFace/API/main.py`
+   - There should be:
      ```python
      app.add_middleware(
          CORSMiddleware,
@@ -1024,11 +1024,11 @@ npm run dev
      )
      ```
 
-2. **Para producción, especifica los orígenes**:
+2. **For production, specify origins**:
    ```python
    allow_origins=[
        "https://localhost:5173",
-       "https://192.168.0.7:5173",  # Tu IP
+       "https://192.168.0.7:5173",  # Your IP
    ],
    ```
 
@@ -1036,28 +1036,28 @@ npm run dev
 
 ### ❌ Error: "Port already in use"
 
-**Problema**: Al iniciar un servicio, el puerto ya está en uso.
+**Problem**: When starting a service, the port is already in use.
 
-**Solución**:
+**Solution**:
 
 ```powershell
 # Windows PowerShell
-# Encuentra el proceso que usa el puerto (ejemplo: 8001)
+# Find the process using the port (example: 8001)
 netstat -ano | findstr :8001
 
-# Nota el PID (última columna)
-# Mata el proceso:
+# Note the PID (last column)
+# Kill the process:
 taskkill /PID <PID> /F
 
-# Ejemplo:
+# Example:
 # taskkill /PID 12345 /F
 ```
 
 ---
 
-## 📝 Mantenimiento y Desarrollo
+## 📝 Maintenance and Development
 
-### Actualizar Dependencias
+### Update Dependencies
 
 #### Frontend
 
@@ -1067,36 +1067,36 @@ npm update
 npm audit fix
 ```
 
-#### APIs Python
+#### Python APIs
 
 ```bash
-# Activar entorno virtual correspondiente
+# Activate corresponding virtual environment
 pip list --outdated
-pip install --upgrade <paquete>
+pip install --upgrade <package>
 ```
 
-### Backup de la Base de Datos
+### Database Backup
 
 ```bash
 cd apiCRUD
-# Crear backup
+# Create backup
 cp gimnasio.db gimnasio_backup_$(date +%Y%m%d).db
 
-# Exportar a JSON
+# Export to JSON
 python crearBDD.py
 ```
 
-### Logs y Debugging
+### Logs and Debugging
 
-**Habilitar logs detallados**:
+**Enable detailed logs**:
 
 ```python
-# En main.py de cualquier API
+# In main.py of any API
 import logging
 logging.basicConfig(level=logging.DEBUG)
 ```
 
-**Ver logs de Docker (CompreFace)**:
+**View Docker logs (CompreFace)**:
 
 ```bash
 docker logs compreface
@@ -1105,87 +1105,87 @@ docker logs -f compreface  # Follow mode
 
 ---
 
-## 🔐 Seguridad
+## 🔐 Security
 
-### ⚠️ Importante para Producción
+### ⚠️ Important for Production
 
-Los certificados autofirmados son **solo para desarrollo**. Para producción:
+Self-signed certificates are **for development only**. For production:
 
-1. **Obtén certificados válidos**:
+1. **Get valid certificates**:
 
-   - Let's Encrypt (gratuito): https://letsencrypt.org/
+   - Let's Encrypt (free): https://letsencrypt.org/
    - Cloudflare SSL
-   - Proveedor de hosting
+   - Hosting provider
 
-2. **Configura variables de entorno**:
+2. **Configure environment variables**:
 
    ```python
-   # No pongas API Keys en el código
+   # Don't put API Keys in code
    import os
    API_KEY = os.getenv("COMPREFACE_API_KEY")
    ```
 
-3. **Restringe CORS**:
+3. **Restrict CORS**:
 
    ```python
    allow_origins=[
-       "https://tudominio.com",
+       "https://yourdomain.com",
    ],
    ```
 
-4. **Usa un proxy reverso**:
+4. **Use a reverse proxy**:
    - Nginx
    - Apache
    - Traefik
 
 ---
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-Para contribuir al proyecto:
+To contribute to the project:
 
-1. Fork el repositorio
-2. Crea una rama para tu feature: `git checkout -b feature/nueva-funcionalidad`
-3. Commit tus cambios: `git commit -am 'Agrega nueva funcionalidad'`
-4. Push a la rama: `git push origin feature/nueva-funcionalidad`
-5. Crea un Pull Request
-
----
-
-## 📄 Licencia
-
-Copyright © 2026 Vito's Gym Club. Todos los derechos reservados.
+1. Fork the repository
+2. Create a branch for your feature: `git checkout -b feature/new-feature`
+3. Commit your changes: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature/new-feature`
+5. Create a Pull Request
 
 ---
 
-## 📞 Soporte
+## 📄 License
 
-Si encuentras problemas o tienes preguntas:
-
-1. Revisa la sección [Solución de Problemas](#-solución-de-problemas)
-2. Consulta la documentación de las APIs:
-   - API CRUD: https://localhost:8001/docs
-   - API Face: https://localhost:8002/docs
-3. Revisa los issues del proyecto en GitHub
-4. Contacta al equipo de desarrollo
+Copyright © 2026 Vito's Gym Club. All rights reserved.
 
 ---
 
-## 🙏 Agradecimientos
+## 📞 Support
 
-- **CompreFace** - Sistema de reconocimiento facial: https://github.com/exadel-inc/CompreFace
-- **FastAPI** - Framework web moderno: https://fastapi.tiangolo.com/
-- **React** - Librería UI: https://react.dev/
-- **Material-UI** - Componentes UI: https://mui.com/
+If you encounter problems or have questions:
+
+1. Review the [Troubleshooting](#-troubleshooting) section
+2. Check the API documentation:
+   - CRUD API: https://localhost:8001/docs
+   - Face API: https://localhost:8002/docs
+3. Review project issues on GitHub
+4. Contact the development team
+
+---
+
+## 🙏 Acknowledgements
+
+- **CompreFace** - Facial recognition system: https://github.com/exadel-inc/CompreFace
+- **FastAPI** - Modern web framework: https://fastapi.tiangolo.com/
+- **React** - UI library: https://react.dev/
+- **Material-UI** - UI components: https://mui.com/
 
 ---
 
 <div align="center">
 
-**🏋️ Vito's Gym Club - Sistema de Gestión Integral**
+**🏋️ Vito's Gym Club - Comprehensive Management System**
 
-Desarrollado con ❤️ para mejorar la experiencia de nuestros miembros
+Developed with ❤️ to improve our members' experience
 
-[⬆️ Volver arriba](#-sistema-de-gestión-de-gimnasio---vitos-gym-club)
+[⬆️ Back to top](#-gym-management-system---vitos-gym-club)
 
 </div>
