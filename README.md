@@ -1,6 +1,10 @@
 # 🏋️ Gym Management System - Vito's Gym Club
 
 <div align="center">
+  <img width="612" height="553" alt="diagram" src="https://github.com/user-attachments/assets/1a36d50d-ab70-45c2-877f-1f144b3c2738" />
+</div>
+
+<div align="center">
 
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
